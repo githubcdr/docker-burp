@@ -12,17 +12,17 @@ LABEL \
 WORKDIR	/tmp
 
 RUN apk add --update --no-cache bash git ca-certificates alpine-sdk autoconf \
-				automake openssl openssl-dev uthash uthash-dev librsync librsync-dev acl-dev ncurses-dev \
-            && git clone git://github.com/grke/burp.git \
-			&& cd burp \
-			&& autoreconf -vif \
-			&& sed -i '/LT_INIT(disable-static)/d' ./configure
-			&& ./configure \
-			&& make \
-			&& make install-strip \
-			&& make install-configs \
-			&& apk del alpine-sdk autoconf automake openssl-dev uthash librsync \
-			&& rm -fv /tmp/burp
+	   automake openssl openssl-dev uthash uthash-dev librsync librsync-dev acl-dev ncurses-dev \
+	&& git clone git://github.com/grke/burp.git \
+	&& cd burp \
+	&& autoreconf -vif \
+	&& sed -i '/LT_INIT(disable-static)/d' ./configure
+	&& ./configure \
+	&& make \
+	&& make install-strip \
+	&& make install-configs \
+	&& apk del alpine-sdk autoconf automake openssl-dev uthash librsync \
+	&& rm -fv /tmp/burp
 
 # add files, this also creates the layout for the filesystem
 COPY files/root/ /
