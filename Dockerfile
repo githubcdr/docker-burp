@@ -16,7 +16,7 @@ RUN apk add --update --no-cache bash git ca-certificates alpine-sdk autoconf \
 	&& git clone git://github.com/grke/burp.git \
 	&& cd burp \
 	&& autoreconf -vif \
-	&& sed -i '/LT_INIT(disable-static)/d' ./configure
+	&& sed -i '/LT_INIT(disable-static)/d' ./configure \
 	&& ./configure \
 	&& make \
 	&& make install-strip \
