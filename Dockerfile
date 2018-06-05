@@ -22,7 +22,7 @@ RUN apk add --update --no-cache bash git ca-certificates alpine-sdk autoconf \
 	&& make install-strip \
 	&& make install-configs \
 	&& apk del alpine-sdk autoconf automake openssl-dev uthash librsync \
-	&& rm -fv /tmp/burp
+	&& rm -Rfv /tmp/burp
 
 # add files, this also creates the layout for the filesystem
 COPY files/root/ /
