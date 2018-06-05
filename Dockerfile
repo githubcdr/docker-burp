@@ -21,7 +21,7 @@ RUN apk add --update --no-cache bash git ca-certificates alpine-sdk autoconf \
 	&& make \
 	&& make install-strip \
 	&& make install-configs \
-	&& apk del alpine-sdk autoconf automake openssl-dev uthash librsync \
+	&& apk del alpine-sdk autoconf automake openssl-dev \
 	&& rm -Rfv /tmp/burp
 
 # add files, this also creates the layout for the filesystem
