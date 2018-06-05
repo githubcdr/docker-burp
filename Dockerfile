@@ -11,7 +11,7 @@ LABEL \
 
 WORKDIR	/tmp
 
-RUN apk add --update --no-cache bash git ca-certificates alpine-sdk autoconf \
+RUN apk add --update --no-cache bash s6 git ca-certificates alpine-sdk autoconf \
 	   automake openssl openssl-dev uthash uthash-dev librsync librsync-dev acl-dev ncurses-dev \
 	&& git clone git://github.com/grke/burp.git \
 	&& cd burp \
