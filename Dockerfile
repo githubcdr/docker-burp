@@ -1,8 +1,5 @@
-FROM alpine:latest
-
-# meta
-LABEL \
-	org.label-schema.maintainer="me codar nl" \
+FROM alpine:latest AS build
+LABEL 	org.label-schema.maintainer="me codar nl" \
 	org.label-schema.name="burp" \
 	org.label-schema.description="Docker version of Burp based on Alpine Linux" \
 	org.label-schema.version="1.0" \
@@ -10,27 +7,21 @@ LABEL \
 	org.label-schema.schema-version="1.0"
 
 WORKDIR	/tmp
-
-RUN apk add --update --no-cache bash s6 git ca-certificates alpine-sdk autoconf \
+RUN apk add --update --no-cache git ca-certificates alpine-sdk autoconf \
 	   automake openssl openssl-dev uthash uthash-dev librsync librsync-dev acl-dev ncurses-dev zlib-dev \
+	&& mkdir /app /conf \
 	&& git clone git://github.com/grke/burp.git \
 	&& cd burp \
 	&& autoreconf -vif \
 	&& sed -i '/LT_INIT(disable-static)/d' ./configure \
-	&& ./configure \
+	&& ./configure --prefix=/app --sysconfdir=/conf \
 	&& make \
 	&& make install-strip \
-	&& make install-configs \
-	&& rm -Rfv /tmp/burp
+	&& make install-configs
 
-# add files, this also creates the layout for the filesystem
-COPY files/root/ /
+FROM alpine:latest
+RUN mkdir /app /conf \
+	&& apk add --update --no-cache librsync uthash openssl ca-certificates ncurses libacl
+COPY --from=build /app /app
+COPY --from=build /conf /conf
 
-# fixups
-RUN    chmod a+x /service/*/run
-
-# ready to run
-EXPOSE 4971/tcp 4972/tcp
-
-# manage with s6
-ENTRYPOINT ["/bin/s6-svscan","/service"]

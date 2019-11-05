@@ -1,2 +1,0 @@
-#!/bin/sh
-exec /usr/local/sbin/burp -c /etc/burp/burp-server.conf 2>&1
