@@ -21,7 +21,7 @@ RUN apk add --update --no-cache git ca-certificates alpine-sdk autoconf \
 
 FROM alpine:latest
 RUN mkdir /app /conf \
-	&& apk add --update --no-cache librsync uthash openssl ca-certificates ncurses libacl
+	&& apk add --update --no-cache bash librsync uthash openssl ca-certificates ncurses libacl
 COPY --from=build /app /app
 COPY --from=build /conf /conf
 
