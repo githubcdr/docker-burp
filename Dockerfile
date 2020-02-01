@@ -14,7 +14,7 @@ RUN apk add --update --no-cache git ca-certificates alpine-sdk autoconf \
 	&& cd burp \
 	&& autoreconf -vif \
 	&& sed -i '/LT_INIT(disable-static)/d' ./configure \
-	&& ./configure --prefix=/app --sysconfdir=/conf \
+	&& ./configure \
 	&& make \
 	&& make install-strip \
 	&& make install-configs
