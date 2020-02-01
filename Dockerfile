@@ -9,7 +9,6 @@ LABEL 	org.label-schema.maintainer="me codar nl" \
 WORKDIR	/tmp
 RUN apk add --update --no-cache git ca-certificates alpine-sdk autoconf \
 	   automake openssl openssl-dev uthash uthash-dev librsync librsync-dev acl-dev ncurses-dev zlib-dev \
-	&& mkdir /app /conf \
 	&& git clone git://github.com/grke/burp.git \
 	&& cd burp \
 	&& autoreconf -vif \
@@ -20,8 +19,6 @@ RUN apk add --update --no-cache git ca-certificates alpine-sdk autoconf \
 	&& make install-configs
 
 FROM alpine:latest
-RUN mkdir /app /conf \
-	&& apk add --update --no-cache bash librsync uthash openssl ca-certificates ncurses libacl
-COPY --from=build /app /app
-COPY --from=build /conf /conf
-
+RUN  apk add --update --no-cache bash librsync uthash openssl ca-certificates ncurses libacl
+COPY --from=build /usr/local /usr/local
+COPY --from=build /etc/burp /etc/burp
